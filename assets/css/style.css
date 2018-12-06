@@ -1,8 +1,26 @@
 #weatherImg {
     height: 250px;
     width: 325px;
+    display: block;
+    margin: auto;
 }
 
 #weatherInRoselle {
     text-align: center;
+}
+
+#display {
+    margin-top: 10px;
+}
+
+#imageBox {
+    align-content: center;
+}
+
+#weatherBox {
+    text-align: right;
+}
+
+#tempBox {
+    text-align: left;
 }
