@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="eng-us">
+
+<head>
+    <meta charset="utf-8">
+    <title>Weather Site</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link type="text/javascript" href="assets/javascript/javascript.js">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class=container>
+        <div class=row>
+            <div class=col-md-12 id=weatherInRoselle>
+                <h1>Weather in Roselle</h1>
+            </div>
+        </div>
+        <div class=row>
+            <div class=col-md-6 id=imageBox>
+                <img id="weatherImg">
+            </div>
+        </div>
+        <div class=row>
+            <div class=col-md-3 id=weatherBox>
+               
+            </div>
+            <div class=col-md-3 id=tempBox>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var queryURL = "https://api.weatherbit.io/v2.0/current?city=Roselle,NJ&units=I&key=71a3972b88d0405aa9498ffd466984e0"
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+            console.log(response);
+            $("#tempBox").text((response.data[0].temp) + " degrees fahreinheit");
+            $("#weatherBox").text(response.data[0].weather.description);
+
+            if (response.data[0].weather.description === "Clear sky") {
+                $("#weatherImg").attr("src", "assets/images/clear-sky.jpg");
+            }
+            else if (response.data[0].weather.description === "Few clouds") {
+                $("#weatherImg").attr("src", "assets/images/few-clouds.jpg");
+            }
+        });
+    </script>
+
+</body>
+
+</html>
