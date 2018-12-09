@@ -1,16 +1,24 @@
+body {
+    background: url(../images/winter-background.jpg);
+}
+
 #weatherImg {
-    height: 250px;
-    width: 325px;
+    height: 270px;
+    width: 350px;
     display: block;
     margin: auto;
 }
 
 #weatherInRoselle {
     text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    background: lightskyblue;
 }
 
 #display {
     margin-top: 10px;
+    font-size: 30px;
+    background:lightskyblue;
 }
 
 #imageBox {
@@ -18,9 +26,17 @@
 }
 
 #weatherBox {
-    text-align: right;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
 }
 
 #tempBox {
-    text-align: left;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#formBlock {
+    display:block;
+    margin:auto;
+    text-align: center;
 }

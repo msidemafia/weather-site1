@@ -4,56 +4,87 @@
 <head>
     <meta charset="utf-8">
     <title>Weather Site</title>
+    <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/style.css">
-    <link type="text/javascript" href="assets/javascript/javascript.js">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
 <body>
-    <div class=container>
-        <div class=row>
-            <div class=col-md-12 id=weatherInRoselle>
-                <h1>Weather in Roselle</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12" id="weatherInRoselle">
+                <h1 id="areaDisplay">New Jersey Weather</h1>
             </div>
         </div>
         <br><br>
-        <div class=row>
-            <div class=col-md-12 id=imageBox>
+        <div class="row">
+            <div class="col-md-12" id="imageBox">
                 <img id="weatherImg">
             </div>
         </div>
         <br>
-        <div class=row id=display>
-            <div class=col-md-6 id=weatherBox>
-               
+        <div id="display">
+            <div class="row">
+                <div class="col-md-12" id="weatherBox">
+                    <p id="weatherP"></p>
+                </div>
             </div>
-            <div class=col-md-6 id=tempBox>
-
+            <div class="row">
+                <div class="col-md-12" id="tempBox">
+                    <p id="temp"></p>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="formBlock">
+                <form>
+                    <input type="text" name="City" placeholder="Enter City" id="cityForm">
+                    <input type="submit" value="Submit" id="submitBtn">
+                </form>
+                </div>
             </div>
         </div>
     </div>
-
-    <script>
-        var queryURL = "https://api.weatherbit.io/v2.0/current?city=Roselle,NJ&units=I&key=71a3972b88d0405aa9498ffd466984e0"
-
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function (response) {
-            console.log(response);
-            $("#tempBox").text((response.data[0].temp) + " degrees fahreinheit");
-            $("#weatherBox").text(response.data[0].weather.description);
-
-            if (response.data[0].weather.description === "Clear sky") {
-                $("#weatherImg").attr("src", "assets/images/clear-sky.jpg");
-            }
-            else if (response.data[0].weather.description === "Few clouds") {
-                $("#weatherImg").attr("src", "assets/images/few-clouds.jpg");
-            }
-        });
-    </script>
-
 </body>
 
+<script type="text/javascript" href="assets/javascript/app.js">
+    $("#weatherImg").hide();
+    $("#display").hide();
+
+$("#submitBtn").on("click", function() {
+    $("#weatherImg").show();
+    $("#display").show();
+    event.preventDefault();
+    var citySubmit = $("#cityForm").val();
+    var zipUrl = "https://api.weatherbit.io/v2.0/current?city=" + citySubmit + ",NJ&units=I&country=US&key=71a3972b88d0405aa9498ffd466984e0"
+
+  $.ajax({
+    url: zipUrl,
+    method: "GET"
+  }).then(function(response) {
+    console.log(response);
+    $("#temp").text((response.data[0].temp) + " degrees fahreinheit");
+    $("#weatherP").text(response.data[0].weather.description);
+    $("#areaDisplay").text("Weather in " + (response.data[0].city_name));
+
+    if (response.data[0].weather.description === "Clear sky") {
+        $("#weatherImg").attr("src", "assets/images/clear-sky.jpg");
+    }
+    else if (response.data[0].weather.description === "Few clouds") {
+        $("#weatherImg").attr("src", "assets/images/few-clouds.jpg");
+    }
+    else if (response.data[0].weather.description === "Overcast clouds") {
+        $("#weatherImg").attr("src", "assets/images/overcast-clouds.png");
+    }
+    else if (response.data[0].weather.description === "Scattered clouds") {
+        $("#weatherImg").attr("src", "assets/images/scattered-clouds.jpg");
+    }
+  });
+});
+
+
+</script> 
 </html>
