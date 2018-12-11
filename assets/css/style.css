@@ -40,3 +40,9 @@ body {
     margin:auto;
     text-align: center;
 }
+
+#timeDisplay {
+    text-align: center;
+    background: lightskyblue;
+    font-size: 20px;
+}

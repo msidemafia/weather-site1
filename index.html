@@ -17,6 +17,10 @@
                 <h1 id="areaDisplay">New Jersey Weather</h1>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12" id="timeDisplay">
+            </div>
+        </div>
         <br><br>
         <div class="row">
             <div class="col-md-12" id="imageBox">
@@ -54,6 +58,18 @@
     $("#weatherImg").hide();
     $("#display").hide();
 
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var time = h + ":" + m;
+
+    $("#timeDisplay").append(time);
+
+
+    var totalMinutes = (h * 60) + m;
+    console.log(totalMinutes);
+
+
 $("#submitBtn").on("click", function() {
     $("#weatherImg").show();
     $("#display").show();
@@ -70,8 +86,30 @@ $("#submitBtn").on("click", function() {
     $("#weatherP").text(response.data[0].weather.description);
     $("#areaDisplay").text("Weather in " + (response.data[0].city_name));
 
+    var sunsetTime = response.data[0].sunset;
+    var sunriseTime = response.data[0].sunrise;
+
+    var sunsetSplit = sunsetTime.split(":");
+    var sunsetHours = parseInt(sunsetSplit[0]);
+    var sunsetMinutes = parseInt(sunsetSplit[1]);
+    var totalSunsetMinutes = (sunsetHours * 60) + sunsetMinutes - 300;
+    console.log(totalSunsetMinutes);
+
+    var sunriseSplit = sunriseTime.split(":");
+    var sunriseHours = parseInt(sunriseSplit[0]);
+    var sunriseMinutes = parseInt(sunriseSplit[1]);
+    var totalSunriseMinutes = (sunriseHours * 60) + sunriseMinutes - 300;
+    console.log(totalSunriseMinutes);
+
+
+
     if (response.data[0].weather.description === "Clear sky") {
-        $("#weatherImg").attr("src", "assets/images/clear-sky.jpg");
+        if (totalMinutes <=totalSunriseMinutes || totalMinutes >= totalSunsetMinutes) {
+            $("#weatherImg").attr("src", "assets/images/clear-sky-nighttime.jpg");
+        }
+        else {
+            $("#weatherImg").attr("src", "assets/images/clear-sky.jpg");
+        }
     }
     else if (response.data[0].weather.description === "Few clouds") {
         $("#weatherImg").attr("src", "assets/images/few-clouds.jpg");
