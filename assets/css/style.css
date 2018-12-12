@@ -46,3 +46,8 @@ body {
     background: lightskyblue;
     font-size: 20px;
 }
+
+#audioPlay {
+    display: block;
+    margin: auto;
+}

@@ -52,16 +52,31 @@
             </div>
         </div>
     </div>
+<br><br><br>
+        <audio src="assets/audio/Opening.mp3" id="audioPlay" loop="loop" controls>
+        </audio>
 </body>
 
 <script type="text/javascript" href="assets/javascript/app.js">
+
+
     $("#weatherImg").hide();
     $("#display").hide();
+
+    var checkTime = function (i) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
 
     var today = new Date();
     var h = today.getHours();
     var m = today.getMinutes();
-    var time = h + ":" + m;
+    var m2 = today.getMinutes();
+    m2 = checkTime(m2);
+    var time = h + ":" + m2;
+
 
     $("#timeDisplay").append(time);
 
@@ -112,13 +127,28 @@ $("#submitBtn").on("click", function() {
         }
     }
     else if (response.data[0].weather.description === "Few clouds") {
-        $("#weatherImg").attr("src", "assets/images/few-clouds.jpg");
+        if (totalMinutes <=totalSunriseMinutes || totalMinutes >= totalSunsetMinutes) {
+            $("#weatherImg").attr("src", "assets/images/few-clouds-nighttime.jpg");
+        }
+        else {
+            $("#weatherImg").attr("src", "assets/images/few-clouds.jpg");
+        }
     }
     else if (response.data[0].weather.description === "Overcast clouds") {
-        $("#weatherImg").attr("src", "assets/images/overcast-clouds.png");
+        if (totalMinutes <=totalSunriseMinutes || totalMinutes >= totalSunsetMinutes) {
+            $("#weatherImg").attr("src", "assets/images/overcast-clouds-nighttime.jpg");
+        }
+        else {
+            $("#weatherImg").attr("src", "assets/images/overcast-clouds.png");
+        }
     }
     else if (response.data[0].weather.description === "Scattered clouds") {
-        $("#weatherImg").attr("src", "assets/images/scattered-clouds.jpg");
+        if (totalMinutes <=totalSunriseMinutes || totalMinutes >= totalSunsetMinutes) {
+            $("#weatherImg").attr("src", "assets/images/scattered-clouds-nighttime.jpg");
+        }
+        else {
+            $("#weatherImg").attr("src", "assets/images/scattered-clouds.jpg");
+        }
     }
   });
 });
