@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <iframe width="0" height="0" src="assets/audio/Opening.mp3" id="song" frameborder="0" allowfullscreen></iframe>
+    <!-- <iframe width="0" height="0" src="assets/audio/Opening.mp3" id="song" frameborder="0" allowfullscreen></iframe> -->
 </head>
 
 <body>
     <div class="container">
         <div class="row">
             <div class="col-md-12" id="weatherInRoselle">
-                <h1 id="areaDisplay">New Jersey Weather</h1>
+                <h1 id="areaDisplay">Weather in the US</h1>
             </div>
         </div>
         <div class="row">
@@ -47,6 +47,71 @@
                 <div id="formBlock">
                 <form>
                     <input type="text" name="City" placeholder="Enter City" id="cityForm">
+                    <select name="State" id="stateForm">
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                        <option value="AZ">Arizona</option>
+                        <option value="AR">Arkansas</option>
+                        
+                        <option value="CA">California</option>
+                        <option value="CO">Colorado</option>
+                        <option value="CT">Connecticut</option>
+                        <option value="DE">Delaware</option>
+
+                        <option value="Fl">Florida</option>
+                        <option value="GA">Georgia</option>
+                        <option value="HI">Hawaii</option>
+                        <option value="ID">Idaho</option>
+
+                        <option value="IL">Illinois</option>
+                        <option value="IN">Indiana</option>
+                        <option value="IA">Iowa</option>
+                        <option value="KS">Kansas</option>
+
+                        <option value="KY">Kentucky</option>
+                        <option value="LA">Louisiana</option>
+                        <option value="ME">Maine</option>
+                        <option value="MD">Maryland</option>
+
+                        <option value="MA">Massachusetts</option>
+                        <option value="MI">Michigan</option>
+                        <option value="MN">Minnesota</option>
+                        <option value="MS">Mississippi</option>
+
+                        <option value="MO">Missouri</option>
+                        <option value="MT">Montana</option>
+                        <option value="NE">Nebraska</option>
+                        <option value="NV">Nevada</option>
+
+                        <option value="NH">New Hampshire</option>
+                        <option value="NJ" selected>New Jersey</option>
+                        <option value="NM">New Mexico</option>
+                        <option value="NY">New York</option>
+
+                        <option value="NC">North Carolina</option>
+                        <option value="ND">North Dakota</option>
+                        <option value="OH">Ohio</option>
+                        <option value="OK">Oklahoma</option>
+
+                        <option value="OR">Oregan</option>
+                        <option value="PA">Pennsylvania</option>
+                        <option value="RI">Rhode Island</option>
+                        <option value="SC">South Carolina</option>
+
+                        <option value="SD">South Dakota</option>
+                        <option value="TN">Tennesee</option>
+                        <option value="TX">Texas</option>
+                        <option value="UT">Utah</option>
+
+                        <option value="VT">Vermont</option>
+                        <option value="VA">Virginia</option>
+                        <option value="WA">Washington</option>
+                        <option value="WV">West Virginia</option>
+
+                        <option value="WI">Wisconsin</option>
+                        <option value="WY">Wyoming</option>
+
+                      </select>
                     <input type="submit" value="Submit" id="submitBtn">
                 </form>
                 </div>
@@ -55,8 +120,8 @@
         <br><br><br>
         <div class="row">
             <div class="col-md-12">
-                <!-- <audio src="assets/audio/Opening.mp3" id="audioPlay" loop="loop" controls>
-                </audio> -->
+                <audio src="assets/audio/Opening.mp3" id="audioPlay" loop="loop" controls>
+                </audio>
             </div>
         </div>
     </div>
@@ -73,17 +138,41 @@
             i = "0" + i;
         }
         return i;
-    }
+    };
+
 
     var today = new Date();
     var h = today.getHours();
     var m = today.getMinutes();
-    var m2 = today.getMinutes();
-    m2 = checkTime(m2);
-    var time = h + ":" + m2;
+    var m2 = today.getMinutes() < 10 ? "0" + today.getMinutes() : today.getMinutes();
+    // m2 = checkTime(m2);
+    var h2 = today.getHours() > 12 ? today.getHours() - 12 : today.getHours();
+    // var amOrPm = today.getHours() >= 12 ? "pm" : "am";
 
+    // var time = h2 + ":" + m2 + " " + amOrPm;
 
-    $("#timeDisplay").append(time);
+    // $("#timeDisplay").append(time);
+    
+    
+    var timeResult;
+    var time = function() {
+        if (h < 12) {
+            var timeResult = h + ":" + m2 + " am";
+        }
+        else if (h > 12) {
+            var timeResult = h-12 + ":" + m2 + " pm";
+        }
+        else if (h = 12) {
+            var timeResult = h + ":" + m2 + " pm"
+        }
+        else if (h = 0) {
+            var timeResult = "12" + ":" + m2 + " am";
+        }
+
+        $("#timeDisplay").append(timeResult);
+        console.log(timeResult);
+    };
+    time();
 
 
     var totalMinutes = (h * 60) + m;
@@ -95,7 +184,8 @@ $("#submitBtn").on("click", function() {
     $("#display").show();
     event.preventDefault();
     var citySubmit = $("#cityForm").val();
-    var zipUrl = "https://api.weatherbit.io/v2.0/current?city=" + citySubmit + ",NJ&units=I&country=US&key=71a3972b88d0405aa9498ffd466984e0"
+    var stateSubmit = $("#stateForm").val();
+    var zipUrl = "https://api.weatherbit.io/v2.0/current?city=" + citySubmit + "," + stateSubmit + "&units=I&country=US&key=71a3972b88d0405aa9498ffd466984e0"
 
   $.ajax({
     url: zipUrl,
@@ -104,7 +194,7 @@ $("#submitBtn").on("click", function() {
     console.log(response);
     $("#temp").text((response.data[0].temp) + " degrees fahreinheit");
     $("#weatherP").text(response.data[0].weather.description);
-    $("#areaDisplay").text("Weather in " + (response.data[0].city_name));
+    $("#areaDisplay").text("Weather in " + (response.data[0].city_name + ", " + stateSubmit));
 
     var sunsetTime = response.data[0].sunset;
     var sunriseTime = response.data[0].sunrise;
