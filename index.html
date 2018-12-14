@@ -152,25 +152,23 @@
     // var time = h2 + ":" + m2 + " " + amOrPm;
 
     // $("#timeDisplay").append(time);
-    
-    
+
     var timeResult;
     var time = function() {
-        if (h < 12) {
-            var timeResult = h + ":" + m2 + " am";
+        if (h == 0) {
+            var timeResult = (h+12) + ":" + m2 + " am";
         }
         else if (h > 12) {
-            var timeResult = h-12 + ":" + m2 + " pm";
+            var timeResult = (h-12) + ":" + m2 + " pm";
         }
-        else if (h = 12) {
-            var timeResult = h + ":" + m2 + " pm"
+        else if (h == 12) {
+            var timeResult = h + ":" + m2 + " pm";
         }
-        else if (h = 0) {
-            var timeResult = "12" + ":" + m2 + " am";
+        else if (h < 12) {
+            var timeResult = h + ":" + m2 + " am";
         }
 
         $("#timeDisplay").append(timeResult);
-        console.log(timeResult);
     };
     time();
 
@@ -252,6 +250,30 @@ $("#submitBtn").on("click", function() {
         else {
             $("#weatherImg").attr("src", "assets/images/broken-clouds.png");
         }
+    }
+    else if (response.data[0].weather.description === "Freezing rain") {
+        if (totalMinutes <=totalSunriseMinutes || totalMinutes >= totalSunsetMinutes) {
+            $("#weatherImg").attr("src", "assets/images/freezing-rain-nighttime.jpg");
+        }
+        else {
+            $("#weatherImg").attr("src", "assets/images/freezing-rain.jpg");
+        }   
+    }
+    else if (response.data[0].weather.description === "Light rain") {
+        if (totalMinutes <=totalSunriseMinutes || totalMinutes >= totalSunsetMinutes) {
+            $("#weatherImg").attr("src", "assets/images/light-rain-nighttime.jpg");
+        }
+        else {
+            $("#weatherImg").attr("src", "assets/images/light-rain.jpg");
+        }   
+    }
+    else if (response.data[0].weather.description === "Fog") {
+        if (totalMinutes <=totalSunriseMinutes || totalMinutes >= totalSunsetMinutes) {
+            $("#weatherImg").attr("src", "assets/images/fog-nighttime.jpg");
+        }
+        else {
+            $("#weatherImg").attr("src", "assets/images/fog.jpg");
+        }   
     }
   });
 });
