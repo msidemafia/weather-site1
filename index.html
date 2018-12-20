@@ -145,12 +145,10 @@
     var h = today.getHours();
     var m = today.getMinutes();
     var m2 = today.getMinutes() < 10 ? "0" + today.getMinutes() : today.getMinutes();
-    // m2 = checkTime(m2);
     var h2 = today.getHours() > 12 ? today.getHours() - 12 : today.getHours();
+    // m2 = checkTime(m2);
     // var amOrPm = today.getHours() >= 12 ? "pm" : "am";
-
     // var time = h2 + ":" + m2 + " " + amOrPm;
-
     // $("#timeDisplay").append(time);
 
     var timeResult;
@@ -273,6 +271,22 @@ $("#submitBtn").on("click", function() {
         }
         else {
             $("#weatherImg").attr("src", "assets/images/fog.jpg");
+        }   
+    }
+    else if (response.data[0].weather.description === "Moderate rain") {
+        if (totalMinutes <=totalSunriseMinutes || totalMinutes >= totalSunsetMinutes) {
+            $("#weatherImg").attr("src", "assets/images/moderate-rain-nighttime.jpg");
+        }
+        else {
+            $("#weatherImg").attr("src", "assets/images/moderate-rain.jpg");
+        }   
+    }
+    else if (response.data[0].weather.description === "Heavy rain") {
+        if (totalMinutes <=totalSunriseMinutes || totalMinutes >= totalSunsetMinutes) {
+            $("#weatherImg").attr("src", "assets/images/heavy-rain-nighttime.jpg");
+        }
+        else {
+            $("#weatherImg").attr("src", "assets/images/heavy-rain.jpg");
         }   
     }
   });
